@@ -19,6 +19,15 @@ export class OrderService {
     return this.db.list('/orders');
   }
 
+  get(orderId) {
+    return this.db.object('/orders/' + orderId)
+      .map( result => {
+        const order = result;
+        console.log('order ', order);
+        return order;
+      })
+  }
+
   getOrdersByUser(userId: string) {
     return this.db.list('/orders', {
       query: {

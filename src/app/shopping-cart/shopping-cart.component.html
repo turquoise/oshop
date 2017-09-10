@@ -24,7 +24,8 @@
           {{ item.title }}
         </td>
         <td>
-          <app-product-quantity [product]="item" [shopping-cart]="cart" ></app-product-quantity>
+          <app-product-quantity [product]="item" [shopping-cart]="cart" >
+          </app-product-quantity>
         </td>
         <td class="text-right">
           {{ item.totalPrice | currency:'GBP':true }}

@@ -9,6 +9,8 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class ShoppingCartService {
 
+  cartId;
+
   constructor(private db: AngularFireDatabase) { }
 
   private create() {
@@ -23,6 +25,7 @@ export class ShoppingCartService {
       .map( x => new ShoppingCart(x.items));
   }
 
+
   async addToCart(product: Product) {
     this.updateItem(product, 1);
   }
@@ -30,7 +33,6 @@ export class ShoppingCartService {
   async removeFromCart(product: Product) {
     this.updateItem(product, -1);
   }
-
   async clearCart() {
     let cartId = await this.getOrCreateCartId();
     this.db.object('/shopping-carts/' + cartId + '/items').remove();
@@ -51,20 +53,19 @@ export class ShoppingCartService {
   }
 
   private async updateItem(product: Product, change: number) {
-    let cartId = await this.getOrCreateCartId();
-    let item$ = this.getItem(cartId, product.$key);
-    item$.take(1).subscribe( item => {
-      let quantity = (item.quantity || 0) + change;
-      if (quantity === 0) item$.remove();
-      else item$.update({
-        title: product.title,
-        imageUrl: product.imageUrl,
-        price: product.price,
-        quantity:  quantity
-      });
+  let cartId = await this.getOrCreateCartId();
+  let item$ = this.getItem(cartId, product.$key);
+  item$.take(1).subscribe(item => {
+    let quantity = (item.quantity || 0) + change;
+    if (quantity === 0) item$.remove();
+    else item$.update({
+      title: product.title,
+      imageUrl: product.imageUrl,
+      price: product.price,
+      quantity: quantity
     });
-  }
-
+  });
+}
 
 
 }

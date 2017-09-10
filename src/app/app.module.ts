@@ -93,6 +93,11 @@ import { AdminOrderDetailsComponent } from './admin/admin-order-details/admin-or
         canActivate: [AuthGuard, AdminAuthGuard]
       },
       {
+        path: 'admin/orders/:id',
+        component: AdminOrderDetailsComponent,
+        canActivate: [AuthGuard, AdminAuthGuard]
+      },
+      {
         path: 'admin/orders',
         component: AdminOrdersComponent,
         canActivate: [AuthGuard, AdminAuthGuard]
