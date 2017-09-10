@@ -1,3 +1,64 @@
-<p>
-  order-success works!
-</p>
+
+<h1>My Order</h1>
+<h4>Thank you for placing your order</h4>
+<div >
+  <div class="row">
+    <div class="col-4">
+      <p>
+        Your order was placed on {{ order.datePlaced | date }}.
+      </p>
+      <p>
+        Email: {{ order.userEmail }}
+      </p>
+      <p>Name: {{ order.shipping?.name }}</p>
+      <div>
+        <p>Address Line 1: {{ order.shipping?.addressLine1 }}</p>
+        <p>Address Line 2: {{ order.shipping?.addressLine2 }}</p>
+        <p>City: {{ order.shipping?.city }}</p>
+      </div>
+    </div>
+    <div class="col-8">
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Product</th>
+            <th class="text-center" style="width: 230px;">Quantity</th>
+            <th class="text-right" style="width: 200px;">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of order.items" >
+            <td>
+              <div [style.backgroundImage]="'url(' + item.product.imageUrl + ')'" class="thumbnail" ></div>
+            </td>
+            <td>
+              {{ item.product.title }}
+            </td>
+            <td class="text-center">
+              {{ item.quantity }}
+            </td>
+            <td class="text-right">
+              {{ item.totalPrice | currency:'GBP':true }}
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <!--<th class="text-right">{{ cart.totalPrice | currency:'GBP':true }}</th> -->
+            <th class="text-right">
+              Total Price: {{ totalPrice() | currency:'GBP':true }}
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <a class="btn btn-primary"
+    routerLink="/my/orders">
+    My orders
+  </a>
+</div>
