@@ -26,7 +26,6 @@ export class ShippingFormComponent implements OnInit, OnDestroy {
     private shoppingCartService: ShoppingCartService ) { }
 
   ngOnInit() {
-    //this.userSubscription = this.authService.user$.subscribe( user => this.userId = user.uid);
     this.userSubscription = this.authService.user$.subscribe( user => {
       this.userId = user.uid;
       console.log('this.userId ', this.userId);
@@ -40,11 +39,9 @@ export class ShippingFormComponent implements OnInit, OnDestroy {
   }
 
   async placeOrder() {
-    //let order = new Order(this.userId, this.shipping, this.cart);
     console.log('this.userId ', this.userId);
     console.log('this.shipping ', this.shipping);
     console.log('this.cart ', this.cart);
-    //this.orderService.storeOrder(order);
 
     let order = {
       userId: this.userId,
@@ -63,6 +60,7 @@ export class ShippingFormComponent implements OnInit, OnDestroy {
       })
     };
     let result = await this.orderService.storeOrder(order);
+    this.shoppingCartService.clearCart();
     this.router.navigate(['/order-success', result.key]);
 
   }
