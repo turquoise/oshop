@@ -5,6 +5,7 @@ import { AuthService } from '../auth.service';
 import { OrderService } from '../order.service';
 import { Order } from '../models/order';
 import { ShoppingCart } from '../models/shopping-cart';
+import { ShoppingCartService } from '../shopping-cart.service';
 
 @Component({
   selector: 'app-shipping-form',
@@ -21,10 +22,17 @@ export class ShippingFormComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private orderService: OrderService ) { }
+    private orderService: OrderService,
+    private shoppingCartService: ShoppingCartService ) { }
 
   ngOnInit() {
-    this.userSubscription = this.authService.user$.subscribe( user => this.userId = user.uid);
+    //this.userSubscription = this.authService.user$.subscribe( user => this.userId = user.uid);
+    this.userSubscription = this.authService.user$.subscribe( user => {
+      this.userId = user.uid;
+      console.log('this.userId ', this.userId);
+    });
+
+
   }
 
   ngOnDestroy() {
@@ -32,30 +40,30 @@ export class ShippingFormComponent implements OnInit, OnDestroy {
   }
 
   async placeOrder() {
-    let order = new Order(this.userId, this.shipping, this.cart);
-    let result = await this.orderService.placeOrder(order);
-    //this.shoppingCartService.clearCart();
-    this.router.navigate(['/order-success', result.key]);
+    //let order = new Order(this.userId, this.shipping, this.cart);
+    console.log('this.userId ', this.userId);
+    console.log('this.shipping ', this.shipping);
+    console.log('this.cart ', this.cart);
+    //this.orderService.storeOrder(order);
 
-    //console.log(this.shipping);
-    // let order = {
-    //   userId: this.user.uid,
-    //   userEmail: this.user.email,
-    //   datePlaced: new Date().getTime(),
-    //   shipping: this.shipping,
-    //   items: this.cart.items.map( i => {
-    //     return {
-    //       product: {
-    //         title: i.title,
-    //         imageUrl: i.imageUrl,
-    //         price: i.price
-    //       },
-    //       quantity: i.quantity,
-    //       totalPrice: i.totalPrice
-    //     }
-    //   })
-    // };
-    // this.orderService.storeOrder(order);
+    let order = {
+      userId: this.userId,
+      datePlaced: new Date().getTime(),
+      shipping: this.shipping,
+      items: this.cart.items.map( i => {
+        return {
+          product: {
+            title: i.title,
+            imageUrl: i.imageUrl,
+            price: i.price
+          },
+          quantity: i.quantity,
+          totalPrice: i.totalPrice
+        }
+      })
+    };
+    let result = await this.orderService.storeOrder(order);
+    this.router.navigate(['/order-success', result.key]);
 
   }
 

@@ -19,6 +19,10 @@ export class OrderService {
     return this.db.list('/orders');
   }
 
+  storeOrder(order) {
+    return this.db.list('/orders').push(order);
+  }
+
   get(orderId) {
     return this.db.object('/orders/' + orderId)
       .map( result => {
