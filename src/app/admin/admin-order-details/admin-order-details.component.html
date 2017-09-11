@@ -2,7 +2,7 @@
 <h1>My Order</h1>
 <div >
   <div class="row">
-    <div class="col-4">
+    <div class="col-md-4">
       <p>
         Your order was placed on {{ order.datePlaced | date }}.
       </p>
@@ -16,8 +16,8 @@
         <p>City: {{ order.shipping?.city }}</p>
       </div>
     </div>
-    <div class="col-8">
-      <table class="table">
+    <div class="col-md-8">
+      <table class="table table-responsive">
         <thead>
           <tr>
             <th></th>

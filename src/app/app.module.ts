@@ -6,6 +6,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AdminAuthGuard } from './admin-auth-guard.service';
 import { UserService } from './user.service';
@@ -64,6 +65,7 @@ import { AdminOrderDetailsComponent } from './admin/admin-order-details/admin-or
     FormsModule,
     CommonModule,
     CustomFormsModule,
+    FlexLayoutModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
